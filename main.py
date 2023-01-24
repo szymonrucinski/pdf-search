@@ -1,6 +1,6 @@
-import qa_pipeline
-import gpt
-from data_cleaning import clean_data_get_handbook_dict
+import src.qa_pipeline as qa_pipeline
+import src.gpt as gpt
+from src.data_cleaning import clean_data_get_handbook_dict
 
 
 def welcome():

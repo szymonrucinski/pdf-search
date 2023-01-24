@@ -1,7 +1,7 @@
 import openai
 import os
-import qa_pipeline
-from ask_bot import get_answer
+from . import qa_pipeline as qa
+from . import summarizer as summarizer
 
 openai.api_key = os.environ.get("OPEN_AI_KEY")
 
@@ -27,7 +27,7 @@ def construct_prompt(haystack_prediction):
 
 
 def answer_query_with_context(query, pipeline) -> str:
-    haystack_prediction = qa_pipeline.query(query, pipeline)
+    haystack_prediction = qa.qa_pipeline.query(query, pipeline)
     prompt = construct_prompt(haystack_prediction)
-    response = get_answer(prompt)
+    response = summarizer.get_answer(prompt)
     return response
