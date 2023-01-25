@@ -1,14 +1,16 @@
+import sys
 import logging
 import os
 import re
-from src.summarizer import get_answer
+
+sys.path.append(".")
 from dotenv import load_dotenv
-import pyjokes
+from slack_bolt import App
+from slack_bolt.adapter.socket_mode import SocketModeHandler
+
 import src.qa_pipeline as qa_pipeline
 import src.gpt as gpt
 from src.data_cleaning import clean_data_get_handbook_dict
-from slack_bolt import App
-from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 load_dotenv()
 
@@ -20,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 @app.event("message")  # type: ignore
-def show_random_joke(message, say):
+def answer_hr_question(message, say):
     """Send a random pyjoke back"""
     channel_type = message["channel_type"]
     if channel_type != "im":
@@ -32,9 +34,21 @@ def show_random_joke(message, say):
     # joke = pyjokes.get_joke()
     answer = gpt.answer_query_with_context(message["text"], pipeline)[0]["summary_text"]
 
-    logger.info(f"Sent joke < {answer} > to user {user_id}")
+    logger.info(f"Sent answer < {answer} > to user {user_id}")
 
     say(text=answer, channel=dm_channel)
+
+
+@app.command("/topics")
+def repeat_text(ack, say, command):
+    # Acknowledge command request
+    ack()
+    files = os.listdir("./mocks")
+    files = [f.split(" ") for f in files]
+    new_str = [" ".join(f[0:-1]) + "\n" for f in files]
+    new_str = "".join(new_str)
+
+    say(f"Here are the topics that you can ask me about: \n {new_str}")
 
 
 def init_pipeline():

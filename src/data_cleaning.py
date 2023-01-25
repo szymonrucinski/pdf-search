@@ -1,9 +1,11 @@
 import os
+import sys
 import glob
 from bs4 import BeautifulSoup
-import nltk
 import emoji
 from dataclasses import dataclass
+
+sys.path.append(".")
 
 
 @dataclass

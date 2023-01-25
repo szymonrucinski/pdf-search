@@ -1,4 +1,5 @@
 from transformers import pipeline
+from . import summarizer
 
 global generator
 summarizer = pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
