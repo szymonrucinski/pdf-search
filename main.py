@@ -20,5 +20,7 @@ if __name__ == "__main__":
     hanbook = clean_data_get_handbook_dict()
     pipeline = qa_pipeline.build_pipeline(hanbook)
     print("Pipeline built")
-    query = "What should I do when I have no work to do at Visium?"
-    answer = gpt.answer_query_with_context(query, pipeline)
+    question = "What should I do when I have no work to do at Visium?"
+    answer = gpt.answer_query_with_context(question, pipeline)
+
+    print(answer)

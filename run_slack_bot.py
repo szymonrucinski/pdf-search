@@ -32,7 +32,7 @@ def answer_hr_question(message, say):
     user_id = message["user"]
 
     # joke = pyjokes.get_joke()
-    answer = gpt.answer_query_with_context(message["text"], pipeline)[0]["summary_text"]
+    answer = gpt.answer_query_with_context(message["text"], pipeline)
 
     logger.info(f"Sent answer < {answer} > to user {user_id}")
 
@@ -40,7 +40,7 @@ def answer_hr_question(message, say):
 
 
 @app.command("/topics")
-def repeat_text(ack, say, command):
+def get_topics(ack, say, command):
     # Acknowledge command request
     ack()
     files = os.listdir("./mocks")

@@ -3,6 +3,11 @@ from functools import cached_property
 from haystack.document_stores import InMemoryDocumentStore
 from haystack.nodes import TfidfRetriever, FARMReader, EmbeddingRetriever
 from haystack.pipelines import ExtractiveQAPipeline
+import logging
+import coloredlogs
+
+coloredlogs.install()
+logger = logging.getLogger(__name__)
 
 
 def build_document_store(docs):
@@ -43,7 +48,10 @@ def build_pipeline(book):
 
 def query(query, pipeline):
     print("Querying...")
+    logger.info(f"Querying < {query} >")
     prediction = pipeline.run(
-        query, params={"Retriever": {"top_k": 5}, "Reader": {"top_k": 3}}
+        query, params={"Retriever": {"top_k": 1}, "Reader": {"top_k": 1}}
     )
+    # logger.error(f"Answer {prediction.get('answers')[0].context}")
+
     return prediction
