@@ -28,10 +28,10 @@ def answer_query_with_context(query, pipeline) -> str:
 
     # prompt = construct_prompt(haystack_prediction)
     # response = summarizer.get_answer(prompt)
-
+    context = haystack_prediction.get("answers")[0].context
     response = (
         haystack_prediction.get("answers")[0].answer
         + " \n BASED ON THIS CONTEXT: \n"
-        + haystack_prediction.get("answers")[0].context
+        + f"```{context}```"
     )
     return response
